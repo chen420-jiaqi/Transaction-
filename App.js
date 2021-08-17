@@ -72,12 +72,13 @@ function fetchUser() {
 };
 
 function calculateResults(userData) {
-  // Calculate points per transaction
-
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const pointsPerTransaction = userData.map(transaction => {
     let points = 0;
     let overMore = transaction.amt - 100;
+    let customer = {};
+    let totalPoints = {};
+    let costall = [];
 
     if (overMore > 0) {
       points += (overMore * 2);
@@ -89,8 +90,6 @@ function calculateResults(userData) {
     return { ...transaction, points, month };
   });
 
-  let customer = {};
-  let totalPoints = {};
   pointsPerTransaction.forEach(pointsPerTransaction => {
     let { custid, name, month, points } = pointsPerTransaction;
     if (!customer[custid]) {
@@ -106,7 +105,6 @@ function calculateResults(userData) {
       customer[custid][month].numTransactions++;
     }
     else {
-
       customer[custid][month] = {
         custid,
         name,
@@ -117,14 +115,14 @@ function calculateResults(userData) {
       }
     }
   });
-  let costall = [];
+  
   for (var custKey in customer) {
     customer[custKey].forEach(cRow => {
       costall.push(cRow);
     });
   }
   console.log("customer", customer);
-  console.log("tot", costall);
+  console.log("costall", costall);
   let totByCustomer = [];
   for (custKey in totalPoints) {
     totByCustomer.push({
@@ -199,7 +197,7 @@ const App = () => {
       <div className="container">
         <div className="row">
           <div className="col-10">
-            <h2>Points Rewards System Totals by Customer Months</h2>
+            <h2>Points Rewards - by Customer Months</h2>
           </div>
         </div>
         <div className="row">
@@ -233,7 +231,7 @@ const App = () => {
       <div className="container">
         <div className="row">
           <div className="col-10">
-            <h2>Points Rewards System Totals By Customer</h2>
+            <h2>Points Rewards - By Customer</h2>
           </div>
         </div>
         <div className="row">
