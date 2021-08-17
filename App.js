@@ -90,16 +90,16 @@ function calculateResults(userData) {
   });
 
   let customer = {};
-  let totalPointsByCustomer = {};
+  let totalPoints = {};
   pointsPerTransaction.forEach(pointsPerTransaction => {
     let { custid, name, month, points } = pointsPerTransaction;
     if (!customer[custid]) {
       customer[custid] = [];
     }
-    if (!totalPointsByCustomer[custid]) {
-      totalPointsByCustomer[name] = 0;
+    if (!totalPoints[custid]) {
+      totalPoints[name] = 0;
     }
-    totalPointsByCustomer[name] += points;
+    totalPoints[name] += points;
     if (customer[custid][month]) {
       customer[custid][month].points += points;
       customer[custid][month].monthNumber = month;
@@ -126,10 +126,10 @@ function calculateResults(userData) {
   console.log("customer", customer);
   console.log("tot", costall);
   let totByCustomer = [];
-  for (custKey in totalPointsByCustomer) {
+  for (custKey in totalPoints) {
     totByCustomer.push({
       name: custKey,
-      points: totalPointsByCustomer[custKey]
+      points: totalPoints[custKey]
     });
   }
   return {
